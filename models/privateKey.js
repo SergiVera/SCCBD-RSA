@@ -18,7 +18,7 @@ const PrivateKey = class PrivateKey {
     /**
      * Decrypt a given encrypted message
      *
-     * @param {bigint} c message to decrypt
+     * @param {bigint} c message encrypted
      * @return {string} m message decrypted
      **/
     decrypt (c) {

@@ -22,9 +22,6 @@ class PublicKey {
      * @return {bigint} message encrypted
      **/
     encrypt (m) {
-        console.log("Message in encrypt function: ", m);
-        console.log("e: ", this.e);
-        console.log("n: ", this.n);
         return bcu.modPow(conversion.textToBigint(m), this.e, this.n);
     }
 
