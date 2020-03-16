@@ -1,15 +1,13 @@
-import { bitLength, gcd, prime, modInv } from 'bigint-crypto-utils';
+import { modPow, bitLength, gcd, prime, modInv } from 'bigint-crypto-utils';
 
-const bcu = require('bigint-crypto-utils');
-const conversion = require('bigint-conversion');
+const PublicKey = class PublicKey {
 
-/**
- * @param e bigint public exponent
- * @param n bigint module
- */
-
-class PublicKey {
-
+    /**
+     *
+     * @constructs
+     * @param {bigint | number} e public exponent
+     * @param {bigint | number} n public modulus
+     */
     constructor(e, n) {
         this.e = BigInt(e);
         this.n = BigInt(n);
@@ -18,24 +16,24 @@ class PublicKey {
     /**
      * Encrypt a given message
      *
-     * @param {bigint | string | number} m message to encrypt
+     * @param {bigint} m message to encrypt
      * @return {bigint} message encrypted
      **/
     encrypt (m) {
-        return bcu.modPow(conversion.textToBigint(m), this.e, this.n);
+        return modPow(m, this.e, this.n);
     }
 
     /**
      * Verify a given signed message
      *
      * @param {bigint} s signed message
-     * @return {bigint | string | number} m bigint message
+     * @return {bigint} m bigint message
      **/
     verify (s) {
-        return conversion.bigintToText(bcu.modPow(s, this.e, this.n));
+        return modPow(s, this.e, this.n);
     }
 
-}
+};
 
 module.exports = PublicKey;
 
@@ -43,16 +41,14 @@ var PublicKey$1 = /*#__PURE__*/Object.freeze({
     __proto__: null
 });
 
-const bcu$1 = require('bigint-crypto-utils');
-const conversion$1 = require('bigint-conversion');
-
-/**
- * @param d bigint private exponent
- * @param publicKey publicKey
- */
-
 const PrivateKey = class PrivateKey {
 
+    /**
+     *
+     * @constructs
+     * @param {bigint | number} d private exponent
+     * @param {PublicKey} publicKey
+     */
     constructor (d, publicKey) {
         this.d = BigInt(d);
         this.publicKey = publicKey;
@@ -62,20 +58,20 @@ const PrivateKey = class PrivateKey {
      * Decrypt a given encrypted message
      *
      * @param {bigint} c message encrypted
-     * @return {string} m message decrypted
+     * @return {bigint} m message decrypted
      **/
     decrypt (c) {
-        return conversion$1.bigintToText(bcu$1.modPow(c, this.d, this.publicKey.n));
+        return modPow(c, this.d, this.publicKey.n);
     }
 
     /**
      * Sign a given message
      *
-     * @param {bigint | string | number} m message to sign
+     * @param {bigint} m message to sign
      * @return {bigint} s message signed
      **/
     sign (m) {
-        return bcu$1.modPow(conversion$1.textToBigint(m), this.d, this.publicKey.n);
+        return modPow(m, this.d, this.publicKey.n);
     }
 };
 
@@ -90,14 +86,11 @@ const _ONE = BigInt(1);
 // We need to generate the coprime "e" in modulus phi(n)
 const _E = BigInt(65537);
 
-/*function _two() {
-    return BigInt(2);
-}
-
-export const twoModPow = function (exponent = BigInt(7), modulus = BigInt(5)) {
-    return bcu.modPow(_two(), exponent, modulus)
-};*/
-
+/**
+ * Generate Random Keys function
+ * @param {number} bitLength
+ * @returns {Promise<{privateKey: PrivateKey, publicKey: PublicKey}>}
+ */
 const generateRandomKeys = async function (bitLength$1 = 3072) {
     let p, q, n, phi;
 
