@@ -53,3 +53,9 @@ export function generateRandomKeys(bitLength$1?: number): Promise<{
         verify(s: bigint): bigint;
     };
 }>;
+export const privateKey: Readonly<{
+    __proto__: any;
+}>;
+export const publicKey: Readonly<{
+    __proto__: any;
+}>;

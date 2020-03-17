@@ -35,3 +35,7 @@ export const generateRandomKeys = async function (bitLength = 3072) {
 
     return {publicKey: publicKey, privateKey: privateKey};
 };
+
+export const publicKey = PublicKey;
+export const privateKey = PrivateKey;
+
