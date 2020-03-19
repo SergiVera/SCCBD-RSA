@@ -10,6 +10,6 @@ export default {
             format: 'esm'
         }
     ],
-    external: ['bigint-crypto-utils'] // <-- Suppresses warning when executing rollup (npx rollup -c)
+    external: ['bigint-crypto-utils', 'bigint-conversion'] // <-- Suppresses warning when executing rollup (npx rollup -c)
     // We must tell rollup to use all IMPORTS as INTERNAL, like we have done for EXTERNAL
 }
