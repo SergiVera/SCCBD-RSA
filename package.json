@@ -16,7 +16,7 @@
     "bigint-crypto-utils": "^2.4.7"
   },
   "devDependencies": {
-    "rollup": "^2.0.6",
+    "rollup": "^3.29.5",
     "typescript": "^3.8.3"
   }
 }
